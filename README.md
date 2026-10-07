@@ -58,9 +58,24 @@ Confira com `claude mcp list`. Dentro de uma sessão, `/mcp` mostra o status e a
 
 ### Claude Desktop
 
-A configuração local do Claude Desktop (`claude_desktop_config.json`) só aceita servidores stdio. Por isso a conexão passa pela ponte
-[`mcp-remote`](https://www.npmjs.com/package/mcp-remote), que precisa do Node.js. Edite
-`%APPDATA%\Claude\claude_desktop_config.json`:
+A configuração local do Claude Desktop (`claude_desktop_config.json`) só aceita servidores stdio. Por isso a conexão passa por
+uma ponte stdio ↔ HTTP. Há duas opções.
+
+**Opção A, com `uv` (Python), sem Node.js.** Usa o [`mcp-proxy`](https://pypi.org/project/mcp-proxy/). O `--with "mcp<2"` é
+necessário porque a versão mais recente do mcp-proxy quebra com a biblioteca `mcp` 2.x.
+
+```json
+{
+  "mcpServers": {
+    "autocad": {
+      "command": "C:\\Users\\SEU_USUARIO\\.local\\bin\\uvx.exe",
+      "args": ["--with", "mcp<2", "mcp-proxy", "--transport", "streamablehttp", "http://127.0.0.1:5100/mcp"]
+    }
+  }
+}
+```
+
+**Opção B, com Node.js.** Usa o [`mcp-remote`](https://www.npmjs.com/package/mcp-remote):
 
 ```json
 {
@@ -73,7 +88,19 @@ A configuração local do Claude Desktop (`claude_desktop_config.json`) só acei
 }
 ```
 
-Depois reinicie o Claude Desktop.
+**Onde fica o arquivo:**
+- Instalação normal: `%APPDATA%\Claude\claude_desktop_config.json`.
+- Instalação pela Microsoft Store: `%LOCALAPPDATA%\Packages\Claude_<id>\LocalCache\Roaming\Claude\claude_desktop_config.json`.
+- O caminho mais fácil é abrir pelo próprio Claude Desktop: **Configurações → Desenvolvedor → Editar configuração**.
+
+Se já houver outros servidores em `mcpServers`, acrescente `"autocad"` ao lado deles.
+
+**Depois de editar:**
+1. Abra o AutoCAD primeiro.
+2. **Feche o Claude Desktop por completo**, pelo ícone na bandeja do Windows → Sair. Fechar só a janela não basta.
+3. Abra o Claude Desktop de novo.
+
+Se o Claude Desktop iniciar com o AutoCAD fechado, o servidor `autocad` aparece como desconectado. Nesse caso, abra o AutoCAD e reinicie o Claude Desktop.
 
 Os "conectores personalizados" da interface do Claude não servem neste caso: eles acessam o servidor a partir da nuvem e não alcançam o `127.0.0.1` da sua máquina.
 
