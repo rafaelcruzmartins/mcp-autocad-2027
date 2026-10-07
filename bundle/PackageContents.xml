@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage
+    SchemaVersion="1.0"
+    AutodeskProduct="AutoCAD"
+    ProductType="Application"
+    Name="AcadMcp"
+    AppVersion="0.1.0"
+    Description="Servidor MCP (Model Context Protocol) para controlar o AutoCAD a partir do Claude."
+    Author="Rafael Martins"
+    ProductCode="{EB7D20AD-6340-44EA-8175-AB5D49A13CD5}"
+    UpgradeCode="{CF39E732-E033-4811-9929-5C8925FEC5F2}">
+
+  <CompanyDetails Name="Rafael Martins" />
+
+  <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R26.0" SeriesMax="R26.0" />
+
+  <Components Description="AcadMcp .NET plugin">
+    <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R26.0" SeriesMax="R26.0" />
+    <ComponentEntry
+        AppName="AcadMcp"
+        Version="0.1.0"
+        ModuleName="./Contents/AcadMcp.dll"
+        AppDescription="Servidor MCP em http://127.0.0.1:5100/mcp"
+        LoadOnAutoCADStartup="True">
+      <Commands GroupName="ACADMCP">
+        <Command Local="MCPSTART" Global="MCPSTART" />
+        <Command Local="MCPSTOP" Global="MCPSTOP" />
+        <Command Local="MCPSTATUS" Global="MCPSTATUS" />
+      </Commands>
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>

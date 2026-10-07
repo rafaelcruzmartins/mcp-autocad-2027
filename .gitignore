@@ -1,0 +1,33 @@
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.nupkg
+
+# IDEs
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# Logs / temp
+*.log
+*.tmp
+
+# Autodesk DLLs are referenced from the AutoCAD install folder and must never be committed
+# (not redistributable).
+ac*mgd.dll
+Ac*Mgd.dll
+
+# Test drawings produced by tests/e2e-test.ps1 -SavePath
+*.dwg
+*.bak
+*.dwl
+*.dwl2
+
+# OS
+Thumbs.db
+Desktop.ini
