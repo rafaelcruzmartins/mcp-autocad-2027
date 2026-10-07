@@ -158,7 +158,8 @@ internal static class Acad
         catch { throw new ArgumentException($"Nome de layer inválido: '{name}'."); }
 
         lt.UpgradeOpen();
-        var rec = new LayerTableRecord { Name = name };
+        // A new record has a null linetype until commit; set it so it is usable in this transaction.
+        var rec = new LayerTableRecord { Name = name, LinetypeObjectId = SymbolUtilityServices.GetLinetypeContinuousId(s.Db) };
         var id = lt.Add(rec);
         s.Tr.AddNewlyCreatedDBObject(rec, true);
         created = true;
